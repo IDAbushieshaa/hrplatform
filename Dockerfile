@@ -1,5 +1,5 @@
-FROM openjdk:11
+FROM maven:3.6.3-jdk-11
 COPY . /usr/hrplatform
 WORKDIR /usr/hrplatform
-RUN ./mvnw clean package
+RUN mvn clean install
 CMD ["java", "-jar", "./target/hrplatform-0.0.1.jar"]
