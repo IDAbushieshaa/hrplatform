@@ -29,14 +29,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User updateUser(long userId) {
+    public User updateUser(long userId, State state) {
         User user = null;
         Optional<User> userOptional = userRepository.findById(userId);
         if(userOptional.isPresent()) {
             user = userOptional.get();
-            user.setState(State.IN_CHECK);
+            user.setState(state);
             user = userRepository.save(user);
-            userKafkaRepository.publish(user, "UPDATE");
+            userKafkaRepository.publish(user, state.name());
         }
         return user;
     }
